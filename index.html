@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RoutePlanner Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Итоговый проект · Теория игр и принятие решений</p>
+      <h1>RoutePlanner</h1>
+      <p class="lead">Планировщик маршрутов с учётом загруженности узлов. Модель объединяет Bellman-Ford / ДП и СМО M/M/1.</p>
+    </div>
+    <div class="hero-metric">
+      <span>SLA</span>
+      <strong>28 мин</strong>
+      <small>максимальное допустимое время маршрута</small>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls">
+      <h2>Параметры демонстрации</h2>
+      <label>
+        Сценарий нагрузки
+        <select id="scenarioSelect">
+          <option value="normal">normal · штатная нагрузка</option>
+          <option value="peak">peak · пиковая нагрузка</option>
+          <option value="incident">incident · инцидент</option>
+        </select>
+      </label>
+      <label>
+        Алгоритм маршрутизации
+        <select id="strategySelect">
+          <option value="bellman_ford">Bellman-Ford</option>
+          <option value="dijkstra">Dijkstra</option>
+        </select>
+      </label>
+      <button id="runBtn">Рассчитать маршрут</button>
+      <p class="hint">Сайт работает полностью локально: все формулы и алгоритмы реализованы в JavaScript.</p>
+    </section>
+
+    <section class="panel result">
+      <h2>Результат</h2>
+      <div class="result-grid">
+        <div>
+          <span class="label">Маршрут</span>
+          <strong id="routeText">—</strong>
+        </div>
+        <div>
+          <span class="label">Время</span>
+          <strong id="timeText">—</strong>
+        </div>
+        <div>
+          <span class="label">SLA</span>
+          <strong id="slaText">—</strong>
+        </div>
+      </div>
+      <div id="explainText" class="explain"></div>
+    </section>
+
+    <section class="panel graph-panel">
+      <div class="section-title">
+        <h2>Граф сети</h2>
+        <span>вес ребра = базовое время + Wq узла назначения</span>
+      </div>
+      <svg id="networkSvg" viewBox="0 0 780 360" role="img" aria-label="Граф RoutePlanner"></svg>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="section-title">
+        <h2>Метрики узлов M/M/1</h2>
+        <span>ρ = λ / μ, Wq — среднее ожидание в очереди</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Узел</th><th>λ_s</th><th>μ</th><th>ρ</th><th>Wq, мин</th><th>Статус</th></tr>
+        </thead>
+        <tbody id="metricsBody"></tbody>
+      </table>
+    </section>
+
+    <section class="panel table-panel wide">
+      <div class="section-title">
+        <h2>Сравнение всех сценариев</h2>
+        <span>контрольная таблица для защиты проекта</span>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Сценарий</th><th>Множитель</th><th>Маршрут</th><th>Время, мин</th><th>SLA</th></tr>
+        </thead>
+        <tbody id="allScenariosBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    RoutePlanner Variant 5 · Вяткина Александра и Скосарев Ренат · ИТ-1-23
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
